@@ -6,6 +6,8 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context); // ✅ Get current theme
+
     return LayoutBuilder(
       builder: (context, constraints) {
         double width = constraints.maxWidth;
@@ -14,19 +16,20 @@ class LoginPage extends StatelessWidget {
         bool isDesktop = width >= 1024;
 
         return Scaffold(
+          backgroundColor: theme.scaffoldBackgroundColor, // ✅ Auto switch
           body: SafeArea(
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   const SizedBox(height: 130),
 
-                  // ✅ App title (optional)
+                  // ✅ Title uses theme colors
                   Text(
                     "Welcome Back 👋",
                     style: TextStyle(
                       fontSize: isMobile ? 24 : 32,
                       fontWeight: FontWeight.bold,
-                      color: Colors.indigo,
+                      color: theme.colorScheme.primary, // Changes with theme
                     ),
                   ),
                   const SizedBox(height: 20),

@@ -10,17 +10,37 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context); // ✅ Get current theme
+    final isDark = theme.brightness == Brightness.dark;
+
     return Form(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             //<<<<<<------------Email------------>>>>>>
             TextFormField(
-              decoration: const InputDecoration(
+              style: TextStyle(color: theme.textTheme.bodyMedium?.color),
+              decoration: InputDecoration(
                 hintText: 'E-Mail',
-                prefixIcon: Icon(Iconsax.direct_right),
-                labelText: 'Emali',
+                hintStyle: TextStyle(color: theme.hintColor),
+                labelText: 'Email',
+                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color),
+                prefixIcon: Icon(Icons.email, color: theme.colorScheme.primary),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: isDark ? Colors.white54 : Colors.black45,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: theme.colorScheme.primary,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             ),
 
@@ -28,12 +48,34 @@ class LoginForm extends StatelessWidget {
 
             //<<<-----------Password----------------->>>
             TextFormField(
-              decoration: const InputDecoration(
+              obscureText: true,
+              style: TextStyle(color: theme.textTheme.bodyMedium?.color),
+              decoration: InputDecoration(
                 hintText: 'Password',
-                hintStyle: TextStyle(color: Colors.black),
-                prefixIcon: Icon(Iconsax.password_check),
+                hintStyle: TextStyle(color: theme.hintColor),
                 labelText: 'Password',
-                suffixIcon: Icon(Iconsax.eye_slash),
+                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color),
+                prefixIcon: Icon(
+                  Icons.password,
+                  color: theme.colorScheme.primary,
+                ),
+                suffixIcon: Icon(
+                  Icons.remove_red_eye,
+                  color: theme.iconTheme.color,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: isDark ? Colors.white54 : Colors.black45,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: theme.colorScheme.primary,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             ),
             const SizedBox(height: 8),
@@ -42,21 +84,32 @@ class LoginForm extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Checkbox(value: true, onChanged: (value) {}),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [const Text('Remember Me')],
+                  children: [
+                    Checkbox(
+                      value: true,
+                      onChanged: (value) {},
+                      activeColor: theme.colorScheme.primary,
+                    ),
+                    Text(
+                      'Remember Me',
+                      style: TextStyle(
+                        color: theme.textTheme.bodyMedium?.color,
+                      ),
+                    ),
+                  ],
                 ),
-
-                //<<--------Forgot Password------>>
                 TextButton(
                   onPressed: () => Get.to(() => const ForgotPassword()),
-                  child: const Text('Forgot Password'),
+                  child: Text(
+                    'Forgot Password?',
+                    style: TextStyle(color: theme.colorScheme.primary),
+                  ),
                 ),
               ],
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
 
             //<<<<--------------Sign In Button ----------->>>>
             SizedBox(
@@ -64,9 +117,12 @@ class LoginForm extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () => Get.to(const HostelNavigationMenu()),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
+                  backgroundColor: theme.colorScheme.primary,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
                 child: const Text('Sign In'),
               ),
@@ -79,16 +135,18 @@ class LoginForm extends StatelessWidget {
               child: OutlinedButton(
                 onPressed: () => Get.to(() => const SignUp()),
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: BorderSide(color: Colors.black),
+                  side: BorderSide(color: theme.colorScheme.primary),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-                child: const Text(
+                child: Text(
                   'Create Account',
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: theme.colorScheme.primary),
                 ),
               ),
             ),
-            const SizedBox(height: 12),
           ],
         ),
       ),

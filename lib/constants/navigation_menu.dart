@@ -40,11 +40,14 @@ class HostelNavigationMenu extends StatelessWidget {
           destinations: const [
             NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
             NavigationDestination(
-              icon: Icon(Iconsax.search_normal),
+              icon: Icon(Icons.search, color: Color.fromARGB(255, 4, 55, 103)),
               label: 'Search',
             ),
             NavigationDestination(
-              icon: Icon(Iconsax.heart),
+              icon: Icon(
+                Icons.favorite,
+                color: Color.fromARGB(255, 227, 31, 17),
+              ),
               label: 'Favorites',
             ),
             NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),

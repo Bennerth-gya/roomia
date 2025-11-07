@@ -48,7 +48,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
             bottom: 50,
             child: Column(
               children: [
-                OnboardingDots(currentIndex: _currentPage, totalDots: 2),
+                OnboardingDots(
+                  currentIndex: _currentPage,
+                  totalDots: 2,
+                  pageController: _pageController, // ✅ Pass controller here
+                ),
+
                 const SizedBox(height: 20),
 
                 // ✅ Only show button on last page
