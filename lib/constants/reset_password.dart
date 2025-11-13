@@ -8,6 +8,9 @@ class HostelResetPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context); // ✅ Get current theme
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -31,6 +34,8 @@ class HostelResetPassword extends StatelessWidget {
                 image: AssetImage(
                   'assets/login_signup_images/reset-password.jpg',
                 ),
+                width: 260,
+                height: 240,
               ),
               const SizedBox(height: 12),
 
@@ -68,18 +73,23 @@ class HostelResetPassword extends StatelessWidget {
               ),
               const SizedBox(height: 12),
 
-              // ✅ "Resend Email" Button
+              // <<<<----------"Resend Email" Button----------->>>>
               SizedBox(
                 width: double.infinity,
-                child: TextButton(
-                  onPressed: () {
-                    // TODO: Implement resend email functionality
-                  },
-                  child: const Text(
-                    'Resend Email',
+                child: OutlinedButton(
+                  onPressed: () => Get.to(() => const LoginPage()),
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: theme.colorScheme.primary),
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    'Submit',
                     style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
+                      color: theme.colorScheme.primary,
+                      fontSize: 16,
                     ),
                   ),
                 ),

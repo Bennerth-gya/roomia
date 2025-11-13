@@ -5,150 +5,172 @@ import 'package:roomia/constants/forgot_password.dart';
 import 'package:roomia/constants/navigation_menu.dart';
 import 'package:roomia/screens/sign_up.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
 
   @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  bool _isPasswordVisible = false;
+  bool _rememberMe = false;
+
+  @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context); // ✅ Get current theme
+    final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
     return Form(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            //<<<<<<------------Email------------>>>>>>
-            TextFormField(
-              style: TextStyle(color: theme.textTheme.bodyMedium?.color),
-              decoration: InputDecoration(
-                hintText: 'E-Mail',
-                hintStyle: TextStyle(color: theme.hintColor),
-                labelText: 'Email',
-                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color),
-                prefixIcon: Icon(Icons.email, color: theme.colorScheme.primary),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: isDark ? Colors.white54 : Colors.black45,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // 👋 Header
+          Text(
+            'Welcome Back 👋',
+            style: theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.onBackground,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Sign in to continue',
+            style: theme.textTheme.bodyMedium?.copyWith(color: theme.hintColor),
+          ),
+          const SizedBox(height: 24),
+
+          // 📧 Email field
+          TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            style: TextStyle(color: theme.colorScheme.onSurface),
+            decoration: InputDecoration(
+              labelText: 'Email',
+              hintText: 'Enter your email',
+              prefixIcon: Icon(
+                Iconsax.direct_right,
+                color: theme.colorScheme.primary,
+              ),
+              labelStyle: TextStyle(color: theme.colorScheme.onSurface),
+              hintStyle: TextStyle(color: theme.hintColor),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: isDark ? Colors.white38 : Colors.black26,
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: theme.colorScheme.primary,
-                    width: 2,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: theme.colorScheme.primary,
+                  width: 2,
                 ),
+                borderRadius: BorderRadius.circular(12),
               ),
             ),
+          ),
+          const SizedBox(height: 16),
 
-            const SizedBox(height: 16),
-
-            //<<<-----------Password----------------->>>
-            TextFormField(
-              obscureText: true,
-              style: TextStyle(color: theme.textTheme.bodyMedium?.color),
-              decoration: InputDecoration(
-                hintText: 'Password',
-                hintStyle: TextStyle(color: theme.hintColor),
-                labelText: 'Password',
-                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color),
-                prefixIcon: Icon(
-                  Icons.password,
-                  color: theme.colorScheme.primary,
-                ),
-                suffixIcon: Icon(
-                  Icons.remove_red_eye,
+          // 🔒 Password field
+          TextFormField(
+            obscureText: !_isPasswordVisible,
+            style: TextStyle(color: theme.colorScheme.onSurface),
+            decoration: InputDecoration(
+              labelText: 'Password',
+              hintText: 'Enter your password',
+              prefixIcon: Icon(
+                Iconsax.password_check,
+                color: theme.colorScheme.primary,
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isPasswordVisible ? Iconsax.eye : Iconsax.eye_slash,
                   color: theme.iconTheme.color,
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: isDark ? Colors.white54 : Colors.black45,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
+                onPressed: () => setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                }),
+              ),
+              labelStyle: TextStyle(color: theme.colorScheme.onSurface),
+              hintStyle: TextStyle(color: theme.hintColor),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: isDark ? Colors.white38 : Colors.black26,
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: theme.colorScheme.primary,
-                    width: 2,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: theme.colorScheme.primary,
+                  width: 2,
                 ),
+                borderRadius: BorderRadius.circular(12),
               ),
             ),
-            const SizedBox(height: 8),
+          ),
+          const SizedBox(height: 12),
 
-            //<<--------Remember Me and Forgot Password----->>>
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Checkbox(
-                      value: true,
-                      onChanged: (value) {},
-                      activeColor: theme.colorScheme.primary,
-                    ),
-                    Text(
-                      'Remember Me',
-                      style: TextStyle(
-                        color: theme.textTheme.bodyMedium?.color,
-                      ),
-                    ),
-                  ],
-                ),
-                TextButton(
-                  onPressed: () => Get.to(() => const ForgotPassword()),
-                  child: Text(
-                    'Forgot Password?',
-                    style: TextStyle(color: theme.colorScheme.primary),
+          // ☑️ Remember Me + Forgot Password
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Checkbox(
+                    value: _rememberMe,
+                    onChanged: (value) => setState(() => _rememberMe = value!),
+                    activeColor: theme.colorScheme.primary,
                   ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 16),
-
-            //<<<<--------------Sign In Button ----------->>>>
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => Get.to(const HostelNavigationMenu()),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.colorScheme.primary,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                  Text(
+                    'Remember Me',
+                    style: TextStyle(color: theme.colorScheme.onBackground),
                   ),
-                ),
-                child: const Text('Sign In'),
+                ],
               ),
-            ),
-            const SizedBox(height: 12),
-
-            //<<------------Create Account Button----------->>>
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(
-                onPressed: () => Get.to(() => const SignUp()),
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: theme.colorScheme.primary),
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
+              TextButton(
+                onPressed: () => Get.to(() => const ForgotPassword()),
                 child: Text(
-                  'Create Account',
+                  'Forgot Password?',
                   style: TextStyle(color: theme.colorScheme.primary),
                 ),
               ),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // 🚪 Sign In Button
+          ElevatedButton(
+            onPressed: () => Get.to(() => const HostelNavigationMenu()),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: theme.colorScheme.primary,
+              foregroundColor: theme.colorScheme.onPrimary,
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
-          ],
-        ),
+            child: const Text(
+              'Sign In',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          // 🆕 Create Account Button
+          OutlinedButton(
+            onPressed: () => Get.to(() => const SignUp()),
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: theme.colorScheme.primary),
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: Text(
+              'Create Account',
+              style: TextStyle(color: theme.colorScheme.primary, fontSize: 16),
+            ),
+          ),
+        ],
       ),
     );
   }

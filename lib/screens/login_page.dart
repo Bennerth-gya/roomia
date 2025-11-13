@@ -1,47 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:roomia/constants/forgot_password.dart';
 import 'package:roomia/constants/login_form.dart';
+import 'package:roomia/constants/navigation_menu.dart';
+import 'package:roomia/screens/sign_up.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context); // ✅ Get current theme
+    final theme = Theme.of(context);
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double width = constraints.maxWidth;
-        bool isMobile = width < 600;
-        bool isTablet = width >= 600 && width < 1024;
-        bool isDesktop = width >= 1024;
+    return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          bool isDesktop = constraints.maxWidth >= 1024;
+          bool isTablet =
+              constraints.maxWidth >= 600 && constraints.maxWidth < 1024;
+          bool isMobile = constraints.maxWidth < 600;
 
-        return Scaffold(
-          backgroundColor: theme.scaffoldBackgroundColor, // ✅ Auto switch
-          body: SafeArea(
+          double formWidth = isDesktop
+              ? 420
+              : isTablet
+              ? 360
+              : double.infinity;
+
+          return Center(
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 130),
-
-                  // ✅ Title uses theme colors
-                  Text(
-                    "Welcome Back 👋",
-                    style: TextStyle(
-                      fontSize: isMobile ? 24 : 32,
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.primary, // Changes with theme
-                    ),
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? 16 : 32,
+                vertical: 20,
+              ),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: formWidth),
+                child: Card(
+                  elevation: isDesktop ? 8 : 0,
+                  color: theme.cardColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  const SizedBox(height: 20),
-
-                  // ✅ Login Form
-                  const LoginForm(),
-                ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: const LoginForm(),
+                  ),
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

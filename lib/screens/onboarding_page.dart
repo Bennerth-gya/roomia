@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:roomia/constants/image_strings.dart';
-import 'package:roomia/constants/login_form.dart';
 import 'package:roomia/constants/roomia_text.dart';
 import 'package:roomia/controllers/onboarding_dots.dart';
 import 'package:roomia/screens/login_page.dart'; // ✅ Import Login screen
@@ -68,7 +67,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 40,
-                        vertical: 14,
+                        vertical: 23,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
